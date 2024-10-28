@@ -214,6 +214,28 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
     );
   };
 
+  const renderMultiYearRange = (yearRange: number[]) => {
+    return (<div className="year-number-container">
+      {yearRange.map((year) => {
+        const activeyear = true//activeYears.includes(year);
+        return (
+          <div
+            key={year}
+            style={{
+              padding: "10px",
+              border: "1px solid #ccc",
+              backgroundColor: activeyear ? "#2c7d30" : "#f0f0f0",
+              color: activeyear ? "#fff" : "#000",
+            }}
+          >
+            {year}
+          </div>
+        );
+      })
+      }
+    </div >)
+  }
+
   const renderYearMonthPicker = () => {
     const months = generateYearMonths();
 
@@ -293,7 +315,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
         )}
 
       {mode === 'date' ? renderDatePicker() :
-        mode === 'yearMonth' || mode === 'multiYearQuarterMonth' ? renderYearMonthPicker() :
+        mode === 'yearMonth' ? renderYearMonthPicker() :
           <FiscalQuarterPicker
             currentDate={currentDate}
             fiscalStartMonth={fiscalStartMonth}
