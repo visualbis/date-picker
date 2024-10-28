@@ -12,6 +12,8 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
   const [selectedMonths, setSelectedMonths] = useState<string[]>([]);
   const [selectedQuarters, setSelectedQuarters] = useState<string[]>([]);
+  const [selectedYears, setSelectedYears] = useState<string[]>([currentDate.getFullYear().toString()]);
+  const [yearsRange, setYearsRange] = useState<number[]>([currentDate.getFullYear() - 1, currentDate.getFullYear(), currentDate.getFullYear() + 1]);
 
   const getDaysInMonth = (year: number, month: number) => {
     return new Date(year, month + 1, 0).getDate();
@@ -102,7 +104,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
   };
 
   const changeYears = (increment: number) => {
-    setCurrentDate(new Date(currentDate.getFullYear() + (4 * increment), currentDate.getMonth(), 1));
+    setYearsRange([yearsRange[0] + increment, yearsRange[1] + increment, yearsRange[2] + increment]);
   };
 
   const toggleDateSelection = (date: Date) => {
@@ -113,6 +115,16 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
       setSelectedDates(selectedDates.filter(d => d.toDateString() !== dateString));
     } else {
       setSelectedDates([...selectedDates, date]);
+    }
+  };
+
+
+  const toggleYearSelection = (yearKey: string) => {
+    const isSelected = selectedYears.includes(yearKey);
+    if (isSelected && selectedYears.length > 1) {
+      setSelectedYears(selectedYears.filter(m => m !== yearKey));
+    } else {
+      setSelectedYears([...selectedYears, yearKey]);
     }
   };
 
@@ -159,6 +171,8 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
     } else {
       setSelectedMonths([]);
       setSelectedQuarters([]);
+      setSelectedYears([]);
+      setYearsRange([currentDate.getFullYear() - 1, currentDate.getFullYear(), currentDate.getFullYear() + 1])
     }
   };
 
@@ -219,21 +233,19 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
   };
 
   const renderMultiYearRange = (yearRange: number[]) => {
-    return (<div className="year-number-container">
+    return (<div className="year-number-container flex" style={{ width: '100%', justifyContent: 'space-evenly' }}>
       {yearRange.map((year) => {
-        const activeyear = true//activeYears.includes(year);
+        const activeyear = selectedYears.includes(year.toString());
         return (
-          <div
+          <button
             key={year}
-            style={{
-              padding: "10px",
-              border: "1px solid #ccc",
-              backgroundColor: activeyear ? "#2c7d30" : "#f0f0f0",
-              color: activeyear ? "#fff" : "#000",
-            }}
-          >
+            className={`flex-1 px-8 py-2 text-m border ${activeyear
+              ? 'bg-blue-50 border-blue-500 text-blue-700'
+              : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+              } ''`}
+            onClick={() => toggleYearSelection(year.toString())}>
             {year}
-          </div>
+          </button>
         );
       })
       }
@@ -256,8 +268,8 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
               onClick={() => toggleMonthSelection(month.date)}
               className={`
                 p-4 rounded-lg text-center transition-colors
-                ${isSelected ? 'bg-blue-100 hover:bg-blue-200' : 'hover:bg-gray-50'}
-                ${isCurrentMonth ? 'font-bold' : ''}
+            ${isSelected ? 'bg-blue-100 hover:bg-blue-200' : 'hover:bg-gray-50'}
+            ${isCurrentMonth ? 'font-bold' : ''}
               `}
             >
               <div className="text-sm text-gray-600">FY{month.fiscalYear}</div>
@@ -275,20 +287,22 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
     <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
       <div className="p-4 bg-gray-50 border-b flex items-center justify-between">
         <button
-          onClick={() => mode === 'date' ? changeMonth(-1) : mode === 'yearQuarterMonth' ? changeYear(-1) : changeYears(-1)}
+          onClick={() => mode === 'date' ? changeMonth(-1) : mode === 'yearQuarterMonth' || mode === 'yearMonth' ? changeYear(-1) : changeYears(-1)}
           className="p-2 hover:bg-gray-200 rounded-full transition-colors"
           aria-label={mode === 'date' ? "Previous month" : "Previous year"}
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
-        <h2 className="text-lg font-semibold">
-          {mode === 'date'
-            ? currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })
-            : mode === 'yearQuarterMonth' ? currentDate.getFullYear().toString() : renderMultiYearRange([2022, 2023, 2024, 2025])
-          }
-        </h2>
+        {mode === 'multiYearQuarterMonth' ? renderMultiYearRange(yearsRange) :
+          <h2 className="text-lg font-semibold">
+            {mode === 'date'
+              ? currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })
+              : currentDate.getFullYear().toString()
+            }
+          </h2>}
+
         <button
-          onClick={() => mode === 'date' ? changeMonth(1) : mode === 'yearQuarterMonth' ? changeYear(1) : changeYears(1)}
+          onClick={() => mode === 'date' ? changeMonth(1) : mode === 'yearQuarterMonth' || mode === 'yearMonth' ? changeYear(1) : changeYears(1)}
           className="p-2 hover:bg-gray-200 rounded-full transition-colors"
           aria-label={mode === 'date' ? "Next month" : "Next year"}
         >
