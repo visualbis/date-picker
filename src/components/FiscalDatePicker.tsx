@@ -225,7 +225,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
                 const isCurrentMonth = day.date.getMonth() === currentDate.getMonth();
                 const isToday = day.date.toDateString() === new Date().toDateString();
                 const isSelected = isDateSelected(day.date);
-
+                const isWeekend = day.date.getDay() === 5 || day.date.getDay() === 6;
                 return (
                   <button
                     key={dayIndex}
@@ -235,6 +235,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
                       ${isCurrentMonth ? 'hover:bg-blue-50' : 'hover:bg-gray-50'}
                       ${isCurrentMonth ? 'text-gray-900' : 'text-gray-400'}
                       ${isToday ? 'font-bold' : ''}
+                      ${isWeekend ? 'italic' : ''}
                       ${isSelected ? 'bg-blue-100 hover:bg-blue-200' : 'bg-white'}
                     `}
                   >
