@@ -272,7 +272,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
             ${isCurrentMonth ? 'font-bold' : ''}
               `}
             >
-              <div className="text-sm text-gray-600">FY{month.fiscalYear}</div>
+              <div className="text-sm text-gray-600">{fiscalStartMonth !== 1 ? "FY" + month.fiscalYear.toString().slice(2) : ''}</div>
               <div className="font-medium">
                 {month.date.toLocaleString('default', { month: 'short' })}
               </div>
