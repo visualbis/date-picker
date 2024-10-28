@@ -150,6 +150,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
         localMonths = [...localMonths, monthKey];
       }
     });
+    localMonths = [...new Set(localMonths)];
     setSelectedMonths([...localMonths])
 
   };
