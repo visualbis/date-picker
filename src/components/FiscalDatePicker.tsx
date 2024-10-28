@@ -12,6 +12,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
   const [selectedMonths, setSelectedMonths] = useState<string[]>([]);
   const [selectedQuarters, setSelectedQuarters] = useState<string[]>([]);
+  const [selectedYears, setSelectedYears] = useState<string[]>([currentDate.getFullYear().toString()]);
 
   const getDaysInMonth = (year: number, month: number) => {
     return new Date(year, month + 1, 0).getDate();
@@ -221,7 +222,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
   const renderMultiYearRange = (yearRange: number[]) => {
     return (<div className="year-number-container flex" style={{ width: '100%', justifyContent: 'space-evenly' }}>
       {yearRange.map((year) => {
-        const activeyear = true//activeYears.includes(year);
+        const activeyear = selectedYears.includes(year.toString());
         return (
           <div
             key={year}
@@ -281,7 +282,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
-        {mode === 'multiYearQuarterMonth' ? renderMultiYearRange([2023, 2024, 2025]) :
+        {mode === 'multiYearQuarterMonth' ? renderMultiYearRange([currentDate.getFullYear() - 1, currentDate.getFullYear(), currentDate.getFullYear() + 1]) :
           <h2 className="text-lg font-semibold">
             {mode === 'date'
               ? currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })

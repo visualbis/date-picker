@@ -41,7 +41,7 @@ export const FiscalQuarterPicker: React.FC<FiscalQuarterPickerProps> = ({
 
     // Toggle quarter selection
     onQuarterSelect(quarterKey);
-    let dateArr: Array<Date> = [];
+    const dateArr: Array<Date> = [];
     quarterMonths.forEach(month => {
       const date = new Date(year, month, 1);
       dateArr.push(date)
