@@ -54,7 +54,7 @@ function App() {
                 className={`flex-1 px-4 py-2 text-sm font-medium border ${mode === 'yearQuarterMonth'
                   ? 'bg-blue-50 border-blue-500 text-blue-700'
                   : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-                  } rounded-r-md`}
+                  } ${mode === 'yearQuarterMonth' ? '' : 'border-r-0'}`}
               >
                 Quarter
               </button>
