@@ -102,7 +102,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
   };
 
   const changeYears = (increment: number) => {
-    setCurrentDate(new Date(currentDate.getFullYear() + (4 * increment), currentDate.getMonth(), 1));
+    console.log(increment)
   };
 
   const toggleDateSelection = (date: Date) => {
@@ -219,7 +219,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
   };
 
   const renderMultiYearRange = (yearRange: number[]) => {
-    return (<div className="year-number-container">
+    return (<div className="year-number-container flex">
       {yearRange.map((year) => {
         const activeyear = true//activeYears.includes(year);
         return (
