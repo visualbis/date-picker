@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { FiscalQuarterPicker } from './FiscalQuarterPicker';
 
 interface FiscalDatePickerProps {
@@ -292,7 +291,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
           className="p-2 hover:bg-gray-200 rounded-full transition-colors"
           aria-label={mode === 'date' ? "Previous month" : "Previous year"}
         >
-          <ChevronLeft className="w-5 h-5" />
+          <label className="w-5 h-5" >&lt;</label>
         </button>
         {mode === 'multiYearQuarterMonth' ? renderMultiYearRange(yearsRange) :
           <h2 className="text-lg font-semibold">
@@ -307,7 +306,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
           className="p-2 hover:bg-gray-200 rounded-full transition-colors"
           aria-label={mode === 'date' ? "Next month" : "Next year"}
         >
-          <ChevronRight className="w-5 h-5" />
+          <label className="w-5 h-5" >&gt;</label>
         </button>
       </div>
 
@@ -327,7 +326,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
               onClick={clearSelection}
               className="flex items-center text-sm text-blue-700 hover:text-blue-900"
             >
-              <X className="w-4 h-4 mr-1" />
+              <label className="w-4 h-4 mr-1" >X</label>
               Clear
             </button>
           </div>
