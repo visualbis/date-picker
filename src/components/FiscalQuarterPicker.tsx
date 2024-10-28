@@ -76,22 +76,28 @@ export const FiscalQuarterPicker: React.FC<FiscalQuarterPickerProps> = ({
   const year = currentDate.getFullYear();
 
   return (
-    <div className="p-4 space-y-4">
-      {quarters.map(quarter => {
-        const quarterKey = `${year}-Q${quarter}`;
-        const quarterMonths = getQuarterMonths(quarter);
-        const isSelected = isQuarterSelected(quarterKey);
+    <div className='flex flex-col gap-2'>
+      <div className='flex flex-row gap-2'>
+        {quarters.map(quarter => {
+          const quarterKey = `${year}-Q${quarter}`;
+          const isSelected = isQuarterSelected(quarterKey);
 
-        return (
-          <div key={quarter} className="space-y-2">
-            <button
+          return (
+            <button key={quarter}
               onClick={() => handleQuarterSelect(quarter)}
-              className={`w-full p-3 text-left rounded-lg transition-colors ${isSelected ? 'bg-blue-100 hover:bg-blue-200' : 'hover:bg-gray-50'
+              className={`w-full p-3 text-center rounded-lg transition-colors ${isSelected ? 'bg-blue-100 hover:bg-blue-200' : 'hover:bg-gray-50'
                 }`}
             >
               <span className="font-medium">Q{quarter}</span>
             </button>
-            <div className="grid grid-cols-3 gap-2 pl-4">
+          );
+        })}
+      </div>
+      {quarters.map(quarter => {
+        const quarterMonths = getQuarterMonths(quarter);
+        return (
+          <div key={quarter + 'm'} className="space-y-2">
+            <div className="grid grid-cols-3 gap-2">
               {quarterMonths.map(month => {
                 const date = new Date(year, month, 1);
                 const isMonthInQuarter = isMonthSelected(date);
