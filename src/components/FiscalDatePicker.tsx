@@ -280,7 +280,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
         <h2 className="text-lg font-semibold">
           {mode === 'date'
             ? currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })
-            : mode === 'yearQuarterMonth' ? currentDate.getFullYear().toString() : ''
+            : mode === 'yearQuarterMonth' ? currentDate.getFullYear().toString() : renderMultiYearRange([2022, 2023, 2024, 2025])
           }
         </h2>
         <button
