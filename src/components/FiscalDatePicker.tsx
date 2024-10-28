@@ -19,13 +19,13 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
 
   const getFiscalWeek = (date: Date) => {
     const fiscalYearStart = new Date(
-      date.getMonth() < fiscalStartMonth - 1 
-        ? date.getFullYear() - 1 
+      date.getMonth() < fiscalStartMonth - 1
+        ? date.getFullYear() - 1
         : date.getFullYear(),
       fiscalStartMonth - 1,
       1
     );
-    
+
     const diffTime = date.getTime() - fiscalYearStart.getTime();
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     return Math.ceil((diffDays + fiscalYearStart.getDay()) / 7);
@@ -43,7 +43,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = getDaysInMonth(year, month);
     const daysInPrevMonth = getDaysInMonth(year, month - 1);
-    
+
     const calendar: Array<{ date: Date; fiscalWeek: number }> = [];
 
     // Previous month days
@@ -80,7 +80,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
   const generateYearMonths = () => {
     const year = currentDate.getFullYear();
     const months = [];
-    
+
     for (let month = 0; month < 12; month++) {
       const date = new Date(year, month, 1);
       const fiscalYear = getFiscalYear(date);
@@ -89,7 +89,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
         fiscalYear,
       });
     }
-    
+
     return months;
   };
 
@@ -104,7 +104,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
   const toggleDateSelection = (date: Date) => {
     const dateString = date.toDateString();
     const isSelected = selectedDates.some(d => d.toDateString() === dateString);
-    
+
     if (isSelected) {
       setSelectedDates(selectedDates.filter(d => d.toDateString() !== dateString));
     } else {
@@ -115,12 +115,28 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
   const toggleMonthSelection = (date: Date) => {
     const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
     const isSelected = selectedMonths.includes(monthKey);
-    
+
     if (isSelected) {
       setSelectedMonths(selectedMonths.filter(m => m !== monthKey));
     } else {
       setSelectedMonths([...selectedMonths, monthKey]);
     }
+  };
+
+  const toggleMonthsSelection = (dateArr: Array<Date>) => {
+    let localMonths: Array<string> = [...selectedMonths];
+    dateArr.forEach(date => {
+      const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
+      const isSelected = localMonths.includes(monthKey);
+      console.log(monthKey, isSelected);
+      if (isSelected) {
+        localMonths = localMonths.filter(m => m !== monthKey);
+      } else {
+        localMonths = [...localMonths, monthKey];
+      }
+    });
+    setSelectedMonths([...localMonths])
+
   };
 
   const isDateSelected = (date: Date) => {
@@ -161,7 +177,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
               {day}
             </div>
           ))}
-          
+
           {Array.from({ length: Math.ceil(calendar.length / 7) }).map((_, weekIndex) => (
             <React.Fragment key={weekIndex}>
               <div className="bg-white p-2 text-sm font-medium text-gray-600 border-t">
@@ -171,7 +187,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
                 const isCurrentMonth = day.date.getMonth() === currentDate.getMonth();
                 const isToday = day.date.toDateString() === new Date().toDateString();
                 const isSelected = isDateSelected(day.date);
-                
+
                 return (
                   <button
                     key={dayIndex}
@@ -201,14 +217,14 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
 
   const renderYearMonthPicker = () => {
     const months = generateYearMonths();
-    
+
     return (
       <div className="grid grid-cols-3 gap-4 p-4">
         {months.map((month, index) => {
-          const isCurrentMonth = month.date.getMonth() === new Date().getMonth() && 
-                               month.date.getFullYear() === new Date().getFullYear();
+          const isCurrentMonth = month.date.getMonth() === new Date().getMonth() &&
+            month.date.getFullYear() === new Date().getFullYear();
           const isSelected = isMonthSelected(month.date);
-          
+
           return (
             <button
               key={index}
@@ -241,7 +257,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
           <ChevronLeft className="w-5 h-5" />
         </button>
         <h2 className="text-lg font-semibold">
-          {mode === 'date' 
+          {mode === 'date'
             ? currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })
             : currentDate.getFullYear().toString()
           }
@@ -255,45 +271,46 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
         </button>
       </div>
 
-      {((mode === 'date' && selectedDates.length > 0) || 
+      {((mode === 'date' && selectedDates.length > 0) ||
         (mode === 'yearMonth' && selectedMonths.length > 0) ||
         (mode === 'yearQuarterMonth' && (selectedMonths.length > 0 || selectedQuarters.length > 0))) && (
-        <div className="px-4 py-2 bg-blue-50 border-b flex items-center justify-between">
-          <span className="text-sm text-blue-700">
-            {mode === 'date' 
-              ? `${selectedDates.length} date${selectedDates.length !== 1 ? 's' : ''} selected`
-              : mode === 'yearMonth'
-              ? `${selectedMonths.length} month${selectedMonths.length !== 1 ? 's' : ''} selected`
-              : `${selectedQuarters.length} quarter${selectedQuarters.length !== 1 ? 's' : ''}, ${selectedMonths.length} month${selectedMonths.length !== 1 ? 's' : ''} selected`
-            }
-          </span>
-          <button
-            onClick={clearSelection}
-            className="flex items-center text-sm text-blue-700 hover:text-blue-900"
-          >
-            <X className="w-4 h-4 mr-1" />
-            Clear
-          </button>
-        </div>
-      )}
-      
-      {mode === 'date' ? renderDatePicker() : 
-       mode === 'yearMonth' ? renderYearMonthPicker() : 
-       <FiscalQuarterPicker
-         currentDate={currentDate}
-         fiscalStartMonth={fiscalStartMonth}
-         selectedMonths={selectedMonths}
-         selectedQuarters={selectedQuarters}
-         onMonthSelect={toggleMonthSelection}
-         onQuarterSelect={(quarter) => {
-           const isSelected = selectedQuarters.includes(quarter);
-           if (isSelected) {
-             setSelectedQuarters(selectedQuarters.filter(q => q !== quarter));
-           } else {
-             setSelectedQuarters([...selectedQuarters, quarter]);
-           }
-         }}
-       />}
+          <div className="px-4 py-2 bg-blue-50 border-b flex items-center justify-between">
+            <span className="text-sm text-blue-700">
+              {mode === 'date'
+                ? `${selectedDates.length} date${selectedDates.length !== 1 ? 's' : ''} selected`
+                : mode === 'yearMonth'
+                  ? `${selectedMonths.length} month${selectedMonths.length !== 1 ? 's' : ''} selected`
+                  : `${selectedQuarters.length} quarter${selectedQuarters.length !== 1 ? 's' : ''}, ${selectedMonths.length} month${selectedMonths.length !== 1 ? 's' : ''} selected`
+              }
+            </span>
+            <button
+              onClick={clearSelection}
+              className="flex items-center text-sm text-blue-700 hover:text-blue-900"
+            >
+              <X className="w-4 h-4 mr-1" />
+              Clear
+            </button>
+          </div>
+        )}
+
+      {mode === 'date' ? renderDatePicker() :
+        mode === 'yearMonth' ? renderYearMonthPicker() :
+          <FiscalQuarterPicker
+            currentDate={currentDate}
+            fiscalStartMonth={fiscalStartMonth}
+            selectedMonths={selectedMonths}
+            selectedQuarters={selectedQuarters}
+            onMonthSelect={toggleMonthSelection}
+            onMonthsSelect={toggleMonthsSelection}
+            onQuarterSelect={(quarter) => {
+              const isSelected = selectedQuarters.includes(quarter);
+              if (isSelected) {
+                setSelectedQuarters(selectedQuarters.filter(q => q !== quarter));
+              } else {
+                setSelectedQuarters([...selectedQuarters, quarter]);
+              }
+            }}
+          />}
     </div>
   );
 };

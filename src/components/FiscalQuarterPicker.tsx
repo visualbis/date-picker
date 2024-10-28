@@ -6,6 +6,7 @@ interface FiscalQuarterPickerProps {
   selectedMonths: string[];
   selectedQuarters: string[];
   onMonthSelect: (date: Date) => void;
+  onMonthsSelect: (dateArr: Array<Date>) => void;
   onQuarterSelect: (quarter: string) => void;
 }
 
@@ -15,6 +16,7 @@ export const FiscalQuarterPicker: React.FC<FiscalQuarterPickerProps> = ({
   selectedMonths,
   selectedQuarters,
   onMonthSelect,
+  onMonthsSelect,
   onQuarterSelect,
 }) => {
   const getFiscalYear = (date: Date) => {
@@ -50,19 +52,16 @@ export const FiscalQuarterPicker: React.FC<FiscalQuarterPickerProps> = ({
 
     // Toggle quarter selection
     onQuarterSelect(quarterKey);
-
+    let dateArr: Array<Date> = [];
     // Select/deselect all months in the quarter
     quarterMonths.forEach(month => {
       const date = new Date(year, month, 1);
-      const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
-      const isMonthSelected = selectedMonths.includes(monthKey);
-
-      if (isSelected && isMonthSelected) {
-        onMonthSelect(date); // Deselect month
-      } else if (!isSelected && !isMonthSelected) {
-        onMonthSelect(date); // Select month
-      }
+      //const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
+      //const isMonthSelected = selectedMonths.includes(monthKey);
+      dateArr.push(date)
     });
+    console.log(dateArr)
+    onMonthsSelect(dateArr);
   };
 
   const handleMonthSelect = (date: Date, quarter: number) => {
@@ -76,8 +75,8 @@ export const FiscalQuarterPicker: React.FC<FiscalQuarterPickerProps> = ({
     const allMonthsSelected = quarterMonths.every(month => {
       const monthDate = new Date(currentDate.getFullYear(), month, 1);
       const monthKey = `${monthDate.getFullYear()}-${monthDate.getMonth()}`;
-      return monthKey === `${date.getFullYear()}-${date.getMonth()}` 
-        ? !selectedMonths.includes(monthKey) 
+      return monthKey === `${date.getFullYear()}-${date.getMonth()}`
+        ? !selectedMonths.includes(monthKey)
         : selectedMonths.includes(monthKey);
     });
 
@@ -102,9 +101,8 @@ export const FiscalQuarterPicker: React.FC<FiscalQuarterPickerProps> = ({
           <div key={quarter} className="space-y-2">
             <button
               onClick={() => handleQuarterSelect(quarter)}
-              className={`w-full p-3 text-left rounded-lg transition-colors ${
-                isSelected ? 'bg-blue-100 hover:bg-blue-200' : 'hover:bg-gray-50'
-              }`}
+              className={`w-full p-3 text-left rounded-lg transition-colors ${isSelected ? 'bg-blue-100 hover:bg-blue-200' : 'hover:bg-gray-50'
+                }`}
             >
               <span className="font-medium">Q{quarter}</span>
             </button>
@@ -112,14 +110,13 @@ export const FiscalQuarterPicker: React.FC<FiscalQuarterPickerProps> = ({
               {quarterMonths.map(month => {
                 const date = new Date(year, month, 1);
                 const isMonthInQuarter = isMonthSelected(date);
-                
+
                 return (
                   <button
                     key={month}
                     onClick={() => handleMonthSelect(date, quarter)}
-                    className={`p-2 rounded-md text-sm transition-colors ${
-                      isMonthInQuarter ? 'bg-blue-100 hover:bg-blue-200' : 'hover:bg-gray-50'
-                    }`}
+                    className={`p-2 rounded-md text-sm transition-colors ${isMonthInQuarter ? 'bg-blue-100 hover:bg-blue-200' : 'hover:bg-gray-50'
+                      }`}
                   >
                     {date.toLocaleString('default', { month: 'short' })}
                   </button>
