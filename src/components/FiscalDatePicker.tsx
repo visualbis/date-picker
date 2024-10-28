@@ -101,6 +101,10 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
     setCurrentDate(new Date(currentDate.getFullYear() + increment, currentDate.getMonth(), 1));
   };
 
+  const changeYears = (increment: number) => {
+    setCurrentDate(new Date(currentDate.getFullYear() + (4 * increment), currentDate.getMonth(), 1));
+  };
+
   const toggleDateSelection = (date: Date) => {
     const dateString = date.toDateString();
     const isSelected = selectedDates.some(d => d.toDateString() === dateString);
@@ -271,7 +275,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
     <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
       <div className="p-4 bg-gray-50 border-b flex items-center justify-between">
         <button
-          onClick={() => mode === 'date' ? changeMonth(-1) : changeYear(-1)}
+          onClick={() => mode === 'date' ? changeMonth(-1) : mode === 'yearQuarterMonth' ? changeYear(-1) : changeYears(-1)}
           className="p-2 hover:bg-gray-200 rounded-full transition-colors"
           aria-label={mode === 'date' ? "Previous month" : "Previous year"}
         >
@@ -284,7 +288,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
           }
         </h2>
         <button
-          onClick={() => mode === 'date' ? changeMonth(1) : changeYear(1)}
+          onClick={() => mode === 'date' ? changeMonth(1) : mode === 'yearQuarterMonth' ? changeYear(1) : changeYears(1)}
           className="p-2 hover:bg-gray-200 rounded-full transition-colors"
           aria-label={mode === 'date' ? "Next month" : "Next year"}
         >
