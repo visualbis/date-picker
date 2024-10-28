@@ -329,7 +329,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
           <h2 className="text-lg font-semibold">
             {mode === 'date'
               ? currentDate.toLocaleString('default', { month: 'long', year: 'numeric' }) + ' - FY' + getFiscalYear(currentDate).toString().slice(2)
-              : 'FY ' + currentDate.getFullYear().toString()
+              : mode === 'yearQuarterMonth' ? 'FY ' + + currentDate.getFullYear().toString() : currentDate.getFullYear().toString()
             }
           </h2>}
 
@@ -344,14 +344,14 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
 
       {((mode === 'date' && selectedDates.length > 0) ||
         (mode === 'yearMonth' && selectedMonths.length > 0) ||
-        (mode === 'yearQuarterMonth' || mode === 'multiYearQuarterMonth' && (selectedMonths.length > 0 || selectedQuarters.length > 0))) && (
+        ((mode === 'yearQuarterMonth' || mode === 'multiYearQuarterMonth') && (selectedMonths.length > 0 || selectedQuarters.length > 0))) && (
           <div className="px-4 py-2 bg-blue-50 border-b flex items-center justify-between">
             <span className="text-sm text-blue-700">
               {mode === 'date'
                 ? selectedDates.length < 2 ? selectedDates[0].toDateString() + ' selected' : `${selectedDates.length} date${selectedDates.length !== 1 ? 's' : ''} selected`
                 : mode === 'yearMonth'
                   ? selectedMonths.length < 2 ? selectedMonths[0] + ' selected' : `${selectedMonths.length} month${selectedMonths.length !== 1 ? 's' : ''} selected`
-                  : selectedMonths.length < 2 && mode !== 'multiYearQuarterMonth' ? selectedMonths[0] + ' selected' : `${selectedQuarters.length} quarter${selectedQuarters.length !== 1 ? 's' : ''}, ${selectedMonths.length} month${selectedMonths.length !== 1 ? 's' : ''} selected`
+                  : selectedMonths.length < 2 && mode === 'yearQuarterMonth' ? selectedMonths[0] + ' selected' : `${selectedQuarters.length} quarter${selectedQuarters.length !== 1 ? 's' : ''}, ${selectedMonths.length} month${selectedMonths.length !== 1 ? 's' : ''} selected`
               }
             </span>
             <button
