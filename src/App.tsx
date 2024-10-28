@@ -3,7 +3,7 @@ import FiscalDatePicker from './components/FiscalDatePicker';
 
 function App() {
   const [fiscalStartMonth, setFiscalStartMonth] = useState(1);
-  const [mode, setMode] = useState<'date' | 'yearMonth' | 'yearQuarterMonth'>('date');
+  const [mode, setMode] = useState<'date' | 'yearMonth' | 'yearQuarterMonth' | 'multiYearQuarterMonth'>('date');
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
@@ -33,38 +33,44 @@ function App() {
             <div className="flex rounded-md shadow-sm">
               <button
                 onClick={() => setMode('date')}
-                className={`flex-1 px-4 py-2 text-sm font-medium border ${
-                  mode === 'date'
-                    ? 'bg-blue-50 border-blue-500 text-blue-700'
-                    : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-                } ${mode === 'date' ? '' : 'border-r-0'} rounded-l-md`}
+                className={`flex-1 px-4 py-2 text-sm font-medium border ${mode === 'date'
+                  ? 'bg-blue-50 border-blue-500 text-blue-700'
+                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                  } ${mode === 'date' ? '' : 'border-r-0'} rounded-l-md`}
               >
                 Date
               </button>
               <button
                 onClick={() => setMode('yearMonth')}
-                className={`flex-1 px-4 py-2 text-sm font-medium border ${
-                  mode === 'yearMonth'
-                    ? 'bg-blue-50 border-blue-500 text-blue-700'
-                    : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-                } ${mode === 'yearMonth' ? '' : 'border-r-0'}`}
+                className={`flex-1 px-4 py-2 text-sm font-medium border ${mode === 'yearMonth'
+                  ? 'bg-blue-50 border-blue-500 text-blue-700'
+                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                  } ${mode === 'yearMonth' ? '' : 'border-r-0'}`}
               >
                 Year-Month
               </button>
               <button
                 onClick={() => setMode('yearQuarterMonth')}
-                className={`flex-1 px-4 py-2 text-sm font-medium border ${
-                  mode === 'yearQuarterMonth'
-                    ? 'bg-blue-50 border-blue-500 text-blue-700'
-                    : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-                } rounded-r-md`}
+                className={`flex-1 px-4 py-2 text-sm font-medium border ${mode === 'yearQuarterMonth'
+                  ? 'bg-blue-50 border-blue-500 text-blue-700'
+                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                  } ${mode === 'yearQuarterMonth' ? '' : 'border-r-0'}`}
               >
                 Quarter
+              </button>
+              <button
+                onClick={() => setMode('multiYearQuarterMonth')}
+                className={`flex-1 px-4 py-2 text-sm font-medium border ${mode === 'multiYearQuarterMonth'
+                  ? 'bg-blue-50 border-blue-500 text-blue-700'
+                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                  } rounded-r-md`}
+              >
+                Multi Yr Qtr Month
               </button>
             </div>
           </div>
         </div>
-        
+
         <FiscalDatePicker fiscalStartMonth={fiscalStartMonth} mode={mode} />
       </div>
     </div>
