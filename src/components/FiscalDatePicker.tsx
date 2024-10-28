@@ -219,7 +219,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
   };
 
   const renderMultiYearRange = (yearRange: number[]) => {
-    return (<div className="year-number-container flex">
+    return (<div className="year-number-container flex" style={{ width: '100%', justifyContent: 'space-evenly' }}>
       {yearRange.map((year) => {
         const activeyear = true//activeYears.includes(year);
         return (
@@ -275,20 +275,22 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
     <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
       <div className="p-4 bg-gray-50 border-b flex items-center justify-between">
         <button
-          onClick={() => mode === 'date' ? changeMonth(-1) : mode === 'yearQuarterMonth' ? changeYear(-1) : changeYears(-1)}
+          onClick={() => mode === 'date' ? changeMonth(-1) : mode === 'yearQuarterMonth' || mode === 'yearMonth' ? changeYear(-1) : changeYears(-1)}
           className="p-2 hover:bg-gray-200 rounded-full transition-colors"
           aria-label={mode === 'date' ? "Previous month" : "Previous year"}
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
-        <h2 className="text-lg font-semibold">
-          {mode === 'date'
-            ? currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })
-            : mode === 'yearQuarterMonth' ? currentDate.getFullYear().toString() : renderMultiYearRange([2022, 2023, 2024, 2025])
-          }
-        </h2>
+        {mode === 'multiYearQuarterMonth' ? renderMultiYearRange([2023, 2024, 2025]) :
+          <h2 className="text-lg font-semibold">
+            {mode === 'date'
+              ? currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })
+              : currentDate.getFullYear().toString()
+            }
+          </h2>}
+
         <button
-          onClick={() => mode === 'date' ? changeMonth(1) : mode === 'yearQuarterMonth' ? changeYear(1) : changeYears(1)}
+          onClick={() => mode === 'date' ? changeMonth(1) : mode === 'yearQuarterMonth' || mode === 'yearMonth' ? changeYear(1) : changeYears(1)}
           className="p-2 hover:bg-gray-200 rounded-full transition-colors"
           aria-label={mode === 'date' ? "Next month" : "Next year"}
         >
