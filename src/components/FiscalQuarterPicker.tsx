@@ -53,11 +53,8 @@ export const FiscalQuarterPicker: React.FC<FiscalQuarterPickerProps> = ({
     // Toggle quarter selection
     onQuarterSelect(quarterKey);
     let dateArr: Array<Date> = [];
-    // Select/deselect all months in the quarter
     quarterMonths.forEach(month => {
       const date = new Date(year, month, 1);
-      //const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
-      //const isMonthSelected = selectedMonths.includes(monthKey);
       dateArr.push(date)
     });
     onQuarterToggleSelect(dateArr, isSelected);

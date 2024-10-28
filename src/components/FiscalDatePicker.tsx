@@ -4,7 +4,7 @@ import { FiscalQuarterPicker } from './FiscalQuarterPicker';
 
 interface FiscalDatePickerProps {
   fiscalStartMonth: number; // 1-12 (January = 1, December = 12)
-  mode: 'date' | 'yearMonth' | 'yearQuarterMonth';
+  mode: 'date' | 'yearMonth' | 'yearQuarterMonth' | 'multiYearQuarterMonth';
 }
 
 const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 1, mode = 'date' }) => {
