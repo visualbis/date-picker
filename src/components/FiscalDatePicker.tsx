@@ -258,7 +258,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
         <h2 className="text-lg font-semibold">
           {mode === 'date'
             ? currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })
-            : currentDate.getFullYear().toString()
+            : mode === 'yearQuarterMonth' ? currentDate.getFullYear().toString() : ''
           }
         </h2>
         <button
@@ -293,7 +293,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
         )}
 
       {mode === 'date' ? renderDatePicker() :
-        mode === 'yearMonth' ? renderYearMonthPicker() :
+        mode === 'yearMonth' || mode === 'multiYearQuarterMonth' ? renderYearMonthPicker() :
           <FiscalQuarterPicker
             currentDate={currentDate}
             fiscalStartMonth={fiscalStartMonth}

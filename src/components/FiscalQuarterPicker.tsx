@@ -19,17 +19,6 @@ export const FiscalQuarterPicker: React.FC<FiscalQuarterPickerProps> = ({
   onQuarterToggleSelect,
   onQuarterSelect,
 }) => {
-  const getFiscalYear = (date: Date) => {
-    return date.getMonth() < fiscalStartMonth - 1
-      ? date.getFullYear()
-      : date.getFullYear() + 1;
-  };
-
-  const getFiscalQuarter = (month: number) => {
-    const normalizedMonth = (month - fiscalStartMonth + 12) % 12;
-    return Math.floor(normalizedMonth / 3) + 1;
-  };
-
   const getQuarterMonths = (quarter: number) => {
     const startMonth = ((quarter - 1) * 3 + fiscalStartMonth - 1 + 12) % 12;
     return Array.from({ length: 3 }, (_, i) => (startMonth + i) % 12);
