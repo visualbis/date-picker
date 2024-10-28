@@ -316,10 +316,10 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
           <div className="px-4 py-2 bg-blue-50 border-b flex items-center justify-between">
             <span className="text-sm text-blue-700">
               {mode === 'date'
-                ? `${selectedDates.length} date${selectedDates.length !== 1 ? 's' : ''} selected`
+                ? selectedDates.length < 2 ? selectedDates[0].toDateString() + ' selected' : `${selectedDates.length} date${selectedDates.length !== 1 ? 's' : ''} selected`
                 : mode === 'yearMonth'
-                  ? `${selectedMonths.length} month${selectedMonths.length !== 1 ? 's' : ''} selected`
-                  : `${selectedQuarters.length} quarter${selectedQuarters.length !== 1 ? 's' : ''}, ${selectedMonths.length} month${selectedMonths.length !== 1 ? 's' : ''} selected`
+                  ? selectedMonths.length < 2 ? selectedMonths[0] + ' selected' : `${selectedMonths.length} month${selectedMonths.length !== 1 ? 's' : ''} selected`
+                  : selectedMonths.length < 2 ? selectedMonths[0] + ' selected' : `${selectedQuarters.length} quarter${selectedQuarters.length !== 1 ? 's' : ''}, ${selectedMonths.length} month${selectedMonths.length !== 1 ? 's' : ''} selected`
               }
             </span>
             <button
