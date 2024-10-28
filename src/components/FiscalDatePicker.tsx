@@ -226,13 +226,10 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
         return (
           <div
             key={year}
-            style={{
-              padding: "10px",
-              border: "1px solid #ccc",
-              backgroundColor: activeyear ? "#2c7d30" : "#f0f0f0",
-              color: activeyear ? "#fff" : "#000",
-            }}
-          >
+            className={`flex-1 px-8 py-2 text-m border ${activeyear
+              ? 'bg-blue-50 border-blue-500 text-blue-700'
+              : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+              } ''`}>
             {year}
           </div>
         );
@@ -257,8 +254,8 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
               onClick={() => toggleMonthSelection(month.date)}
               className={`
                 p-4 rounded-lg text-center transition-colors
-                ${isSelected ? 'bg-blue-100 hover:bg-blue-200' : 'hover:bg-gray-50'}
-                ${isCurrentMonth ? 'font-bold' : ''}
+            ${isSelected ? 'bg-blue-100 hover:bg-blue-200' : 'hover:bg-gray-50'}
+            ${isCurrentMonth ? 'font-bold' : ''}
               `}
             >
               <div className="text-sm text-gray-600">FY{month.fiscalYear}</div>
