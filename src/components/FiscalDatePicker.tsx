@@ -117,6 +117,16 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
     }
   };
 
+
+  const toggleYearSelection = (yearKey: string) => {
+    const isSelected = selectedYears.includes(yearKey);
+    if (isSelected) {
+      setSelectedYears(selectedYears.filter(m => m !== yearKey));
+    } else {
+      setSelectedYears([...selectedYears, yearKey]);
+    }
+  };
+
   const toggleMonthSelection = (date: Date) => {
     const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
     const isSelected = selectedMonths.includes(monthKey);
@@ -160,6 +170,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
     } else {
       setSelectedMonths([]);
       setSelectedQuarters([]);
+      setSelectedYears([]);
     }
   };
 
@@ -224,14 +235,15 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
       {yearRange.map((year) => {
         const activeyear = selectedYears.includes(year.toString());
         return (
-          <div
+          <button
             key={year}
             className={`flex-1 px-8 py-2 text-m border ${activeyear
               ? 'bg-blue-50 border-blue-500 text-blue-700'
               : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-              } ''`}>
+              } ''`}
+            onClick={() => toggleYearSelection(year.toString())}>
             {year}
-          </div>
+          </button>
         );
       })
       }
