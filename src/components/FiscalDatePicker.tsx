@@ -117,7 +117,6 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
     }
   };
 
-
   const toggleYearSelection = (yearKey: string) => {
     const isSelected = selectedYears.includes(yearKey);
     if (isSelected && selectedYears.length > 1) {
@@ -154,6 +153,21 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
 
   };
 
+  const toggleWeekSelection = (dateArr: Array<Date>) => {
+    let localDates: Array<Date> = [...selectedDates];
+    dateArr.forEach(date => {
+      const dateString = date.toDateString();
+      const isSelected = localDates.some(d => d.toDateString() === dateString);
+      if (isSelected) {
+        localDates = localDates.filter(d => d.toDateString() !== dateString);
+      } else {
+        localDates = [...localDates, date];
+      }
+    });
+    localDates = [...new Set(localDates)];
+    setSelectedDates([...localDates])
+  };
+
   const isDateSelected = (date: Date) => {
     return selectedDates.some(d => d.toDateString() === date.toDateString());
   };
@@ -184,7 +198,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
       <>
         <div className="grid grid-cols-8 gap-px bg-gray-200">
           <div className="bg-gray-100 p-2 text-sm font-medium text-gray-600">
-            Week
+            Wk No
           </div>
           {weekDays.map((day, index) => (
             <div
@@ -197,9 +211,16 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
 
           {Array.from({ length: Math.ceil(calendar.length / 7) }).map((_, weekIndex) => (
             <React.Fragment key={weekIndex}>
-              <div className="bg-white p-2 text-sm font-medium text-gray-600 border-t">
+              <button
+                className="bg-white p-2 text-sm font-medium text-gray-600 border-t hover:bg-blue-50"
+                onClick={() => {
+                  const weekStartDate = calendar[weekIndex * 7].date;
+                  const weekDates = getWeekDates(weekStartDate);
+                  toggleWeekSelection(weekDates);
+                }}
+              >
                 {calendar[weekIndex * 7]?.fiscalWeek}
-              </div>
+              </button>
               {calendar.slice(weekIndex * 7, (weekIndex + 1) * 7).map((day, dayIndex) => {
                 const isCurrentMonth = day.date.getMonth() === currentDate.getMonth();
                 const isToday = day.date.toDateString() === new Date().toDateString();
@@ -281,6 +302,16 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
         })}
       </div>
     );
+  };
+
+  const getWeekDates = (startDate: Date): Date[] => {
+    const dates = [];
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(startDate);
+      date.setDate(startDate.getDate() + i);
+      dates.push(date);
+    }
+    return dates;
   };
 
   return (
