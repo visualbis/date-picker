@@ -123,13 +123,12 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
     }
   };
 
-  const toggleMonthsSelection = (dateArr: Array<Date>) => {
+  const toggleQuarterSelection = (dateArr: Array<Date>, selected: boolean) => {
     let localMonths: Array<string> = [...selectedMonths];
     dateArr.forEach(date => {
       const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
       const isSelected = localMonths.includes(monthKey);
-      console.log(monthKey, isSelected);
-      if (isSelected) {
+      if (isSelected && selected) {
         localMonths = localMonths.filter(m => m !== monthKey);
       } else {
         localMonths = [...localMonths, monthKey];
@@ -301,7 +300,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
             selectedMonths={selectedMonths}
             selectedQuarters={selectedQuarters}
             onMonthSelect={toggleMonthSelection}
-            onMonthsSelect={toggleMonthsSelection}
+            onQuarterToggleSelect={toggleQuarterSelection}
             onQuarterSelect={(quarter) => {
               const isSelected = selectedQuarters.includes(quarter);
               if (isSelected) {

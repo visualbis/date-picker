@@ -6,7 +6,7 @@ interface FiscalQuarterPickerProps {
   selectedMonths: string[];
   selectedQuarters: string[];
   onMonthSelect: (date: Date) => void;
-  onMonthsSelect: (dateArr: Array<Date>) => void;
+  onQuarterToggleSelect: (dateArr: Array<Date>, selected: boolean) => void;
   onQuarterSelect: (quarter: string) => void;
 }
 
@@ -16,7 +16,7 @@ export const FiscalQuarterPicker: React.FC<FiscalQuarterPickerProps> = ({
   selectedMonths,
   selectedQuarters,
   onMonthSelect,
-  onMonthsSelect,
+  onQuarterToggleSelect,
   onQuarterSelect,
 }) => {
   const getFiscalYear = (date: Date) => {
@@ -60,8 +60,7 @@ export const FiscalQuarterPicker: React.FC<FiscalQuarterPickerProps> = ({
       //const isMonthSelected = selectedMonths.includes(monthKey);
       dateArr.push(date)
     });
-    console.log(dateArr)
-    onMonthsSelect(dateArr);
+    onQuarterToggleSelect(dateArr, isSelected);
   };
 
   const handleMonthSelect = (date: Date, quarter: number) => {
