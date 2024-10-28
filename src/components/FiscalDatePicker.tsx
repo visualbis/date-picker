@@ -13,6 +13,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
   const [selectedMonths, setSelectedMonths] = useState<string[]>([]);
   const [selectedQuarters, setSelectedQuarters] = useState<string[]>([]);
   const [selectedYears, setSelectedYears] = useState<string[]>([currentDate.getFullYear().toString()]);
+  const [yearsRange, setYearsRange] = useState<number[]>([currentDate.getFullYear() - 1, currentDate.getFullYear(), currentDate.getFullYear() + 1]);
 
   const getDaysInMonth = (year: number, month: number) => {
     return new Date(year, month + 1, 0).getDate();
@@ -103,7 +104,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
   };
 
   const changeYears = (increment: number) => {
-    console.log(increment)
+    setYearsRange([yearsRange[0] + increment, yearsRange[1] + increment, yearsRange[2] + increment]);
   };
 
   const toggleDateSelection = (date: Date) => {
@@ -120,7 +121,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
 
   const toggleYearSelection = (yearKey: string) => {
     const isSelected = selectedYears.includes(yearKey);
-    if (isSelected) {
+    if (isSelected && selectedYears.length > 1) {
       setSelectedYears(selectedYears.filter(m => m !== yearKey));
     } else {
       setSelectedYears([...selectedYears, yearKey]);
@@ -171,6 +172,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
       setSelectedMonths([]);
       setSelectedQuarters([]);
       setSelectedYears([]);
+      setYearsRange([currentDate.getFullYear() - 1, currentDate.getFullYear(), currentDate.getFullYear() + 1])
     }
   };
 
@@ -291,7 +293,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
-        {mode === 'multiYearQuarterMonth' ? renderMultiYearRange([currentDate.getFullYear() - 1, currentDate.getFullYear(), currentDate.getFullYear() + 1]) :
+        {mode === 'multiYearQuarterMonth' ? renderMultiYearRange(yearsRange) :
           <h2 className="text-lg font-semibold">
             {mode === 'date'
               ? currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })
