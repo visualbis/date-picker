@@ -196,14 +196,14 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
 
     return (
       <>
-        <div className="grid grid-cols-8 gap-px bg-gray-200">
-          <div className="bg-gray-100 p-2 text-sm font-medium text-gray-600">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: '1px', backgroundColor: '#f3f4f6' }}>
+          <div style={{ backgroundColor: '#f9fafb', padding: '8px', fontSize: '14px', fontWeight: '500', color: '#6B7280' }}>
             Wk No
           </div>
           {weekDays.map((day, index) => (
             <div
               key={index}
-              className="bg-gray-100 p-2 text-center text-sm font-medium text-gray-600"
+              style={{ backgroundColor: '#f9fafb', padding: '8px', textAlign: 'center', fontSize: '14px', fontWeight: '500', color: '#6B7280' }}
             >
               {day}
             </div>
@@ -212,7 +212,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
           {Array.from({ length: Math.ceil(calendar.length / 7) }).map((_, weekIndex) => (
             <React.Fragment key={weekIndex}>
               <button
-                className="bg-white p-2 text-sm font-medium text-gray-600 border-t hover:bg-blue-50"
+                style={{ backgroundColor: 'white', padding: '8px', fontSize: '14px', fontWeight: '500', color: '#6B7280', borderTop: '1px solid #f3f4f6', cursor: 'pointer', transition: 'background-color 0.2s' }}
                 onClick={() => {
                   const weekStartDate = calendar[weekIndex * 7].date;
                   const weekDates = getWeekDates(weekStartDate);
@@ -230,18 +230,22 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
                   <button
                     key={dayIndex}
                     onClick={() => toggleDateSelection(day.date)}
-                    className={`
-                      relative w-full h-full p-2 text-center border-t transition-colors
-                      ${isCurrentMonth ? 'hover:bg-blue-50' : 'hover:bg-gray-50'}
-                      ${isCurrentMonth ? 'text-gray-900' : 'text-gray-400'}
-                      ${isToday ? 'font-bold' : ''}
-                      ${isWeekend ? 'italic' : ''}
-                      ${isSelected ? 'bg-blue-100 hover:bg-blue-200' : 'bg-white'}
-                    `}
+                    style={{
+                      position: 'relative',
+                      width: '100%',
+                      height: '100%',
+                      padding: '8px',
+                      textAlign: 'center',
+                      border: '1px solid #f3f4f6',
+                      transition: 'background-color 0.2s',
+                      ...(isCurrentMonth ? { backgroundColor: 'hover:bg-blue-50' } : { backgroundColor: 'hover:bg-gray-50' }),
+                      ...(isCurrentMonth ? { color: 'text-gray-900' } : { color: 'text-gray-400' }),
+                      ...(isToday ? { fontWeight: 'bold' } : {}),
+                      ...(isWeekend ? { fontStyle: 'italic' } : {}),
+                      ...(isSelected ? { backgroundColor: 'bg-blue-100 hover:bg-blue-200' } : { backgroundColor: 'bg-white' }),
+                    }}
                   >
-                    <span className={`
-                      ${isSelected ? 'relative z-10' : ''}
-                    `}>
+                    <span style={{ ...(isSelected ? { position: 'relative', zIndex: '10' } : '') }}>
                       {day.date.getDate()}
                     </span>
                   </button>
@@ -255,16 +259,30 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
   };
 
   const renderMultiYearRange = (yearRange: number[]) => {
-    return (<div className="year-number-container flex" style={{ width: '100%', justifyContent: 'space-evenly' }}>
+    return (<div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly' }}>
       {yearRange.map((year) => {
         const activeyear = selectedYears.includes(year.toString());
         return (
           <button
             key={year}
-            className={`flex-1 px-8 py-2 text-m border ${activeyear
-              ? 'bg-blue-50 border-blue-500 text-blue-700'
-              : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-              } ''`}
+            style={{
+              flex: 1,
+              padding: '8px 16px',
+              margin: '2px',
+              border: '1px solid #f3f4f6',
+              ...(activeyear ? {
+                backgroundColor: '#f3f4f6',
+                borderColor: '#3b82f6',
+                color: '#3b82f6',
+              } : {
+                backgroundColor: '#ffffff',
+                borderColor: '#6B7280',
+                color: '#6B7280',
+                ':hover': {
+                  backgroundColor: '#f3f4f6',
+                },
+              }),
+            }}
             onClick={() => toggleYearSelection(year.toString())}>
             {year}
           </button>
@@ -278,7 +296,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
     const months = generateYearMonths();
 
     return (
-      <div className="grid grid-cols-3 gap-4 p-4">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', padding: '1rem' }}>
         {months.map((month, index) => {
           const isCurrentMonth = month.date.getMonth() === new Date().getMonth() &&
             month.date.getFullYear() === new Date().getFullYear();
@@ -288,14 +306,28 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
             <button
               key={index}
               onClick={() => toggleMonthSelection(month.date)}
-              className={`
-                p-4 rounded-lg text-center transition-colors
-            ${isSelected ? 'bg-blue-100 hover:bg-blue-200' : 'hover:bg-gray-50'}
-            ${isCurrentMonth ? 'font-bold' : ''}
-              `}
+              style={{
+                padding: '1rem',
+                borderRadius: '0.5rem',
+                textAlign: 'center',
+                transition: 'background-color 0.2s',
+                ...(isSelected ? {
+                  backgroundColor: '#bfdbfe',
+                  ':hover': {
+                    backgroundColor: '#bfdbfe',
+                  },
+                } : {
+                  ':hover': {
+                    backgroundColor: '#f3f4f6',
+                  },
+                }),
+                ...(isCurrentMonth ? {
+                  fontWeight: 'bold',
+                } : {}),
+              }}
             >
-              <div className="text-sm text-gray-600">{fiscalStartMonth !== 1 ? "FY" + month.fiscalYear.toString().slice(2) : ''}</div>
-              <div className="font-medium">
+              <div style={{ fontSize: '0.875rem', color: '#6B7280' }}>{fiscalStartMonth !== 1 ? "FY" + month.fiscalYear.toString().slice(2) : ''}</div>
+              <div style={{ fontSize: '1rem', fontWeight: '500' }}>
                 {month.date.toLocaleString('default', { month: 'short' })}
               </div>
             </button>
@@ -316,37 +348,37 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
   };
 
   return (
-    <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
-      <div className="p-4 bg-gray-50 border-b flex items-center justify-between">
+    <div style={{ width: '100%', maxWidth: '28rem', margin: 'auto', backgroundColor: '#ffffff', borderRadius: '0.5rem', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', overflow: 'hidden' }}>
+      <div style={{ padding: '1rem', backgroundColor: '#f9fafb', borderBotton: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button
           onClick={() => mode === 'date' ? changeMonth(-1) : mode === 'yearQuarterMonth' || mode === 'yearMonth' ? changeYear(-1) : changeYears(-1)}
-          className="p-2 hover:bg-gray-200 rounded-full transition-colors"
+          style={{ padding: '0.5rem', backgroundColor: 'transparent', border: 'none', borderRadius: '50%', transition: 'backgroundColor 0.2s', cursor: 'pointer' }}
           aria-label={mode === 'date' ? "Previous month" : "Previous year"}
         >
-          <label className="w-5 h-5" >&lt;</label>
+          <label style={{ width: '1.25rem', height: '1.25rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >&lt;</label>
         </button>
         {mode === 'multiYearQuarterMonth' ? renderMultiYearRange(yearsRange) :
-          <h2 className="text-lg font-semibold">
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', margin: '0' }}>
             {mode === 'date'
               ? currentDate.toLocaleString('default', { month: 'long', year: 'numeric' }) + ' - FY' + getFiscalYear(currentDate).toString().slice(2)
-              : mode === 'yearQuarterMonth' ? 'FY ' + + currentDate.getFullYear().toString() : currentDate.getFullYear().toString()
+              : mode === 'yearQuarterMonth' ? 'FY ' + currentDate.getFullYear().toString() : currentDate.getFullYear().toString()
             }
           </h2>}
 
         <button
           onClick={() => mode === 'date' ? changeMonth(1) : mode === 'yearQuarterMonth' || mode === 'yearMonth' ? changeYear(1) : changeYears(1)}
-          className="p-2 hover:bg-gray-200 rounded-full transition-colors"
+          style={{ padding: '0.5rem', backgroundColor: 'transparent', border: 'none', borderRadius: '50%', transition: 'backgroundColor 0.2s', cursor: 'pointer' }}
           aria-label={mode === 'date' ? "Next month" : "Next year"}
         >
-          <label className="w-5 h-5" >&gt;</label>
+          <label style={{ width: '1.25rem', height: '1.25rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >&gt;</label>
         </button>
       </div>
 
       {((mode === 'date' && selectedDates.length > 0) ||
         (mode === 'yearMonth' && selectedMonths.length > 0) ||
         ((mode === 'yearQuarterMonth' || mode === 'multiYearQuarterMonth') && (selectedMonths.length > 0 || selectedQuarters.length > 0))) && (
-          <div className="px-4 py-2 bg-blue-50 border-b flex items-center justify-between">
-            <span className="text-sm text-blue-700">
+          <div style={{ padding: '1rem', backgroundColor: '#eff6ff', borderBotton: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontSize: '0.875rem', color: '#3b82f6' }}>
               {mode === 'date'
                 ? selectedDates.length < 2 ? selectedDates[0].toDateString() + ' selected' : `${selectedDates.length} date${selectedDates.length !== 1 ? 's' : ''} selected`
                 : mode === 'yearMonth'
@@ -356,9 +388,9 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
             </span>
             <button
               onClick={clearSelection}
-              className="flex items-center text-sm text-blue-700 hover:text-blue-900"
+              style={{ display: 'flex', alignItems: 'center', fontSize: '0.875rem', color: '#3b82f6', cursor: 'pointer' }}
             >
-              <label className="w-4 h-4 mr-1" >X</label>
+              <label style={{ width: '1rem', height: '1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', marginRight: '0.25rem' }} >X</label>
               Clear
             </button>
           </div>

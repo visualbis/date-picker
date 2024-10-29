@@ -76,8 +76,8 @@ export const FiscalQuarterPicker: React.FC<FiscalQuarterPickerProps> = ({
   const year = currentDate.getFullYear();
 
   return (
-    <div className='flex flex-col gap-2'>
-      <div className='flex flex-row gap-2'>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'row', gap: '2rem' }}>
         {quarters.map(quarter => {
           const quarterKey = `${year}-Q${quarter}`;
           const isSelected = isQuarterSelected(quarterKey);
@@ -85,10 +85,9 @@ export const FiscalQuarterPicker: React.FC<FiscalQuarterPickerProps> = ({
           return (
             <button key={quarter}
               onClick={() => handleQuarterSelect(quarter)}
-              className={`w-full p-3 text-center rounded-lg transition-colors ${isSelected ? 'bg-blue-100 hover:bg-blue-200' : 'hover:bg-gray-50'
-                }`}
+              style={{ width: '100%', padding: '0.75rem 1.5rem', textAlign: 'center', borderRadius: '0.5rem', transition: 'background-color 0.2s', backgroundColor: isSelected ? '#BFDBFE' : '', color: isSelected ? '#3B82F6' : '#6B7280' }}
             >
-              <span className="font-medium">Q{quarter}</span>
+              <span style={{ fontWeight: '500' }}>Q{quarter}</span>
             </button>
           );
         })}
@@ -96,8 +95,8 @@ export const FiscalQuarterPicker: React.FC<FiscalQuarterPickerProps> = ({
       {quarters.map(quarter => {
         const quarterMonths = getQuarterMonths(quarter);
         return (
-          <div key={quarter + 'm'} className="space-y-2">
-            <div className="grid grid-cols-3 gap-2">
+          <div key={quarter + 'm'} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem' }}>
               {quarterMonths.map(month => {
                 const date = new Date(year, month, 1);
                 const isMonthInQuarter = isMonthSelected(date);
@@ -106,8 +105,7 @@ export const FiscalQuarterPicker: React.FC<FiscalQuarterPickerProps> = ({
                   <button
                     key={month}
                     onClick={() => handleMonthSelect(date, quarter)}
-                    className={`p-2 rounded-md text-sm transition-colors ${isMonthInQuarter ? 'bg-blue-100 hover:bg-blue-200' : 'hover:bg-gray-50'
-                      }`}
+                    style={{ padding: '0.5rem 1rem', borderRadius: '0.25rem', fontSize: '0.875rem', transition: 'background-color 0.2s', backgroundColor: isMonthInQuarter ? '#BFDBFE' : '', color: isMonthInQuarter ? '#3B82F6' : '#6B7280' }}
                   >
                     {date.toLocaleString('default', { month: 'short' })}
                   </button>

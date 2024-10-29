@@ -6,17 +6,17 @@ function App() {
   const [mode, setMode] = useState<'date' | 'yearMonth' | 'yearQuarterMonth' | 'multiYearQuarterMonth'>('date');
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <div className="max-w-md mx-auto space-y-6">
-        <div className="bg-white p-4 rounded-lg shadow-md space-y-4">
+    <div style={{ minHeight: '100vh', backgroundColor: '#f9fafb', padding: '2rem' }}>
+      <div style={{ maxWidth: '28rem', margin: 'auto', marginTop: '1.5rem', marginBottom: '1.5rem' }}>
+        <div style={{ backgroundColor: '#ffffff', padding: '1rem', borderRadius: '0.5rem', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', marginTop: '1.5rem', marginBottom: '1.5rem' }}>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label style={{ display: 'block', fontSize: '0.875rem', fontFamily: 'Arial, sans-serif', color: '#6B7280', marginBottom: '0.5rem' }}>
               Fiscal Year Start Month
             </label>
             <select
               value={fiscalStartMonth}
               onChange={(e) => setFiscalStartMonth(Number(e.target.value))}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              style={{ display: 'block', width: '100%', borderRadius: '0.375rem', border: '1px solid #6B7280', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)', outline: 'none' }}
             >
               {Array.from({ length: 12 }, (_, i) => (
                 <option key={i + 1} value={i + 1}>
@@ -27,43 +27,31 @@ function App() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label style={{ display: 'block', fontSize: '0.875rem', fontFamily: 'Arial, sans-serif', color: '#6B7280', marginBottom: '0.5rem' }}>
               Picker Mode
             </label>
-            <div className="flex rounded-md shadow-sm">
+            <div style={{ display: 'flex', borderRadius: '0.375rem', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
               <button
                 onClick={() => setMode('date')}
-                className={`flex-1 px-4 py-2 text-sm font-medium border ${mode === 'date'
-                  ? 'bg-blue-50 border-blue-500 text-blue-700'
-                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-                  } ${mode === 'date' ? '' : 'border-r-0'} rounded-l-md`}
+                style={{ flex: 1, padding: '0.5rem 1rem', fontSize: '0.875rem', fontFamily: 'Arial, sans-serif', border: '1px solid #6B7280', borderRadius: '0.375rem', outline: 'none', backgroundColor: mode === 'date' ? '#f3f4f6' : '#ffffff', color: mode === 'date' ? '#3b82f6' : '#6B7280', borderRight: mode === 'date' ? 'none' : '1px solid #6B7280', borderRadiusLeft: '0.375rem' }}
               >
                 Date
               </button>
               <button
                 onClick={() => setMode('yearMonth')}
-                className={`flex-1 px-4 py-2 text-sm font-medium border ${mode === 'yearMonth'
-                  ? 'bg-blue-50 border-blue-500 text-blue-700'
-                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-                  } ${mode === 'yearMonth' ? '' : 'border-r-0'}`}
+                style={{ flex: 1, padding: '0.5rem 1rem', fontSize: '0.875rem', fontFamily: 'Arial, sans-serif', border: '1px solid #6B7280', borderRadius: '0.375rem', outline: 'none', backgroundColor: mode === 'yearMonth' ? '#f3f4f6' : '#ffffff', color: mode === 'yearMonth' ? '#3b82f6' : '#6B7280', borderRight: mode === 'yearMonth' ? 'none' : '1px solid #6B7280' }}
               >
                 Year-Month
               </button>
               <button
                 onClick={() => setMode('yearQuarterMonth')}
-                className={`flex-1 px-4 py-2 text-sm font-medium border ${mode === 'yearQuarterMonth'
-                  ? 'bg-blue-50 border-blue-500 text-blue-700'
-                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-                  } ${mode === 'yearQuarterMonth' ? '' : 'border-r-0'}`}
+                style={{ flex: 1, padding: '0.5rem 1rem', fontSize: '0.875rem', fontFamily: 'Arial, sans-serif', border: '1px solid #6B7280', borderRadius: '0.375rem', outline: 'none', backgroundColor: mode === 'yearQuarterMonth' ? '#f3f4f6' : '#ffffff', color: mode === 'yearQuarterMonth' ? '#3b82f6' : '#6B7280', borderRight: mode === 'yearQuarterMonth' ? 'none' : '1px solid #6B7280' }}
               >
                 Quarter
               </button>
               <button
                 onClick={() => setMode('multiYearQuarterMonth')}
-                className={`flex-1 px-4 py-2 text-sm font-medium border ${mode === 'multiYearQuarterMonth'
-                  ? 'bg-blue-50 border-blue-500 text-blue-700'
-                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-                  } rounded-r-md`}
+                style={{ flex: 1, padding: '0.5rem 1rem', fontSize: '0.875rem', fontFamily: 'Arial, sans-serif', border: '1px solid #6B7280', borderRadius: '0.375rem', outline: 'none', backgroundColor: mode === 'multiYearQuarterMonth' ? '#f3f4f6' : '#ffffff', color: mode === 'multiYearQuarterMonth' ? '#3b82f6' : '#6B7280', borderRadiusRight: '0.375rem' }}
               >
                 Multi Yr Qtr Month
               </button>
