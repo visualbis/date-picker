@@ -52,12 +52,33 @@ button {
     color: #3b82f6;
     cursor: pointer;
   }
+
+  .fiscal-quarter-picker-button {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    text-align: center;
+    border-radius: 0.5rem;
+    transition: 'background-color 0.2s';
+  }
+
+  .fiscal-quarter-picker-month-button {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    transition: background-color 0.2s;
+  }
 }
 
 span {
   .date-picker-selection-text {
     font-size: 0.875rem;
     color: #3b82f6;
+  }
+
+  .fiscal-quarter-picker-button-text {
+    font-weight: 500;
   }
 }
 
@@ -144,5 +165,29 @@ div {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .fiscal-quarter-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .fiscal-quarter-picker-row {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .fiscal-quarter-picker-months {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .fiscal-quarter-picker-months-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
   }
 }

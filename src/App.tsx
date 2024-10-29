@@ -33,7 +33,7 @@ function App() {
             <div style={{ display: 'flex', borderRadius: '0.375rem', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
               <button
                 onClick={() => setMode('date')}
-                style={{ flex: 1, padding: '0.5rem 1rem', fontSize: '0.875rem', fontFamily: 'Arial, sans-serif', border: '1px solid #6B7280', borderRadius: '0.375rem', outline: 'none', backgroundColor: mode === 'date' ? '#f3f4f6' : '#ffffff', color: mode === 'date' ? '#3b82f6' : '#6B7280', borderRight: mode === 'date' ? 'none' : '1px solid #6B7280', borderRadiusLeft: '0.375rem' }}
+                style={{ flex: 1, padding: '0.5rem 1rem', fontSize: '0.875rem', fontFamily: 'Arial, sans-serif', border: '1px solid #6B7280', borderRadius: '0.375rem', outline: 'none', backgroundColor: mode === 'date' ? '#f3f4f6' : '#ffffff', color: mode === 'date' ? '#3b82f6' : '#6B7280', borderRight: mode === 'date' ? 'none' : '1px solid #6B7280' }}
               >
                 Date
               </button>
