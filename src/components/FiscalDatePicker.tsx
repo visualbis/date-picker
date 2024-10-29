@@ -196,14 +196,14 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
 
     return (
       <>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: '1px', backgroundColor: '#f3f4f6' }}>
-          <div style={{ backgroundColor: '#f9fafb', padding: '8px', fontSize: '14px', fontWeight: '500', color: '#6B7280' }}>
+        <div className="date-picker-grid">
+          <div className="date-picker-header">
             Wk No
           </div>
           {weekDays.map((day, index) => (
             <div
               key={index}
-              style={{ backgroundColor: '#f9fafb', padding: '8px', textAlign: 'center', fontSize: '14px', fontWeight: '500', color: '#6B7280' }}
+              className="date-picker-header"
             >
               {day}
             </div>
@@ -212,7 +212,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
           {Array.from({ length: Math.ceil(calendar.length / 7) }).map((_, weekIndex) => (
             <React.Fragment key={weekIndex}>
               <button
-                style={{ backgroundColor: 'white', padding: '8px', fontSize: '14px', fontWeight: '500', color: '#6B7280', borderTop: '1px solid #f3f4f6', cursor: 'pointer', transition: 'background-color 0.2s' }}
+                className="date-picker-button"
                 onClick={() => {
                   const weekStartDate = calendar[weekIndex * 7].date;
                   const weekDates = getWeekDates(weekStartDate);
@@ -230,14 +230,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
                   <button
                     key={dayIndex}
                     onClick={() => toggleDateSelection(day.date)}
-                    style={{
-                      position: 'relative',
-                      width: '100%',
-                      height: '100%',
-                      padding: '8px',
-                      textAlign: 'center',
-                      border: '1px solid #f3f4f6',
-                      transition: 'background-color 0.2s',
+                    className="date-picker-day" style={{
                       ...(isCurrentMonth ? { backgroundColor: 'white', ':hover': { backgroundColor: '#f3f4f6' } } : { backgroundColor: 'white', ':hover': { backgroundColor: '#f9fafb' } }),
                       ...(isCurrentMonth ? { color: '#3b82f6' } : { color: '#6B7280' }),
                       ...(isToday ? { fontWeight: 'bold' } : {}),
@@ -259,17 +252,14 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
   };
 
   const renderMultiYearRange = (yearRange: number[]) => {
-    return (<div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly' }}>
+    return (<div className="multi-year-range">
       {yearRange.map((year) => {
         const activeyear = selectedYears.includes(year.toString());
         return (
           <button
             key={year}
+            className="multi-year-button"
             style={{
-              flex: 1,
-              padding: '8px 16px',
-              margin: '2px',
-              border: '1px solid #f3f4f6',
               ...(activeyear ? {
                 backgroundColor: '#f3f4f6',
                 borderColor: '#3b82f6',
@@ -296,7 +286,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
     const months = generateYearMonths();
 
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', padding: '1rem' }}>
+      <div className="year-month-picker">
         {months.map((month, index) => {
           const isCurrentMonth = month.date.getMonth() === new Date().getMonth() &&
             month.date.getFullYear() === new Date().getFullYear();
@@ -306,11 +296,8 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
             <button
               key={index}
               onClick={() => toggleMonthSelection(month.date)}
+              className="year-month-button"
               style={{
-                padding: '1rem',
-                borderRadius: '0.5rem',
-                textAlign: 'center',
-                transition: 'background-color 0.2s',
                 ...(isSelected ? {
                   backgroundColor: '#bfdbfe',
                   ':hover': {
@@ -326,8 +313,8 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
                 } : {}),
               }}
             >
-              <div style={{ fontSize: '0.875rem', color: '#6B7280' }}>{fiscalStartMonth !== 1 ? "FY" + month.fiscalYear.toString().slice(2) : ''}</div>
-              <div style={{ fontSize: '1rem', fontWeight: '500' }}>
+              <div className="year-month-fiscal-year">{fiscalStartMonth !== 1 ? "FY" + month.fiscalYear.toString().slice(2) : ''}</div>
+              <div className="year-month-month">
                 {month.date.toLocaleString('default', { month: 'short' })}
               </div>
             </button>
@@ -348,17 +335,16 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
   };
 
   return (
-    <div style={{ width: '100%', maxWidth: '28rem', margin: 'auto', backgroundColor: '#ffffff', borderRadius: '0.5rem', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', overflow: 'hidden' }}>
-      <div style={{ padding: '1rem', backgroundColor: '#f9fafb', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <div className="fiscal-date-picker">
+      <div className="date-picker-header">
         <button
           onClick={() => mode === 'date' ? changeMonth(-1) : mode === 'yearQuarterMonth' || mode === 'yearMonth' ? changeYear(-1) : changeYears(-1)}
-          style={{ padding: '0.5rem', backgroundColor: 'transparent', border: 'none', borderRadius: '50%', transition: 'backgroundColor 0.2s', cursor: 'pointer' }}
-          aria-label={mode === 'date' ? "Previous month" : "Previous year"}
+          className="date-picker-nav-button"
         >
-          <label style={{ width: '1.25rem', height: '1.25rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >&lt;</label>
+          <label className="date-picker-nav-label" >&lt;</label>
         </button>
         {mode === 'multiYearQuarterMonth' ? renderMultiYearRange(yearsRange) :
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', margin: '0' }}>
+          <h2 className="date-picker-header">
             {mode === 'date'
               ? currentDate.toLocaleString('default', { month: 'long', year: 'numeric' }) + ' - FY' + getFiscalYear(currentDate).toString().slice(2)
               : mode === 'yearQuarterMonth' ? 'FY ' + currentDate.getFullYear().toString() : currentDate.getFullYear().toString()
@@ -367,18 +353,17 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
 
         <button
           onClick={() => mode === 'date' ? changeMonth(1) : mode === 'yearQuarterMonth' || mode === 'yearMonth' ? changeYear(1) : changeYears(1)}
-          style={{ padding: '0.5rem', backgroundColor: 'transparent', border: 'none', borderRadius: '50%', transition: 'backgroundColor 0.2s', cursor: 'pointer' }}
-          aria-label={mode === 'date' ? "Next month" : "Next year"}
+          className="date-picker-nav-button"
         >
-          <label style={{ width: '1.25rem', height: '1.25rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >&gt;</label>
+          <label className="date-picker-nav-label" >&gt;</label>
         </button>
       </div>
 
       {((mode === 'date' && selectedDates.length > 0) ||
         (mode === 'yearMonth' && selectedMonths.length > 0) ||
         ((mode === 'yearQuarterMonth' || mode === 'multiYearQuarterMonth') && (selectedMonths.length > 0 || selectedQuarters.length > 0))) && (
-          <div style={{ padding: '1rem', backgroundColor: '#eff6ff', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '0.875rem', color: '#3b82f6' }}>
+          <div className="date-picker-selection">
+            <span className="date-picker-selection-text">
               {mode === 'date'
                 ? selectedDates.length < 2 ? selectedDates[0].toDateString() + ' selected' : `${selectedDates.length} date${selectedDates.length !== 1 ? 's' : ''} selected`
                 : mode === 'yearMonth'
@@ -388,9 +373,9 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
             </span>
             <button
               onClick={clearSelection}
-              style={{ display: 'flex', alignItems: 'center', fontSize: '0.875rem', color: '#3b82f6', cursor: 'pointer' }}
+              className="date-picker-clear-button"
             >
-              <label style={{ width: '1rem', height: '1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', marginRight: '0.25rem' }} >X</label>
+              <label className="date-picker-clear-label" >X</label>
               Clear
             </button>
           </div>
