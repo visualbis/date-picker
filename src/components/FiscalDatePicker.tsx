@@ -238,11 +238,11 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
                       textAlign: 'center',
                       border: '1px solid #f3f4f6',
                       transition: 'background-color 0.2s',
-                      ...(isCurrentMonth ? { backgroundColor: 'hover:bg-blue-50' } : { backgroundColor: 'hover:bg-gray-50' }),
-                      ...(isCurrentMonth ? { color: 'text-gray-900' } : { color: 'text-gray-400' }),
+                      ...(isCurrentMonth ? { backgroundColor: 'white', ':hover': { backgroundColor: '#f3f4f6' } } : { backgroundColor: 'white', ':hover': { backgroundColor: '#f9fafb' } }),
+                      ...(isCurrentMonth ? { color: '#3b82f6' } : { color: '#6B7280' }),
                       ...(isToday ? { fontWeight: 'bold' } : {}),
                       ...(isWeekend ? { fontStyle: 'italic' } : {}),
-                      ...(isSelected ? { backgroundColor: 'bg-blue-100 hover:bg-blue-200' } : { backgroundColor: 'bg-white' }),
+                      ...(isSelected ? { backgroundColor: '#f3f4f6', ':hover': { backgroundColor: '#3b82f6' } } : { backgroundColor: 'white' }),
                     }}
                   >
                     <span style={{ ...(isSelected ? { position: 'relative', zIndex: '10' } : '') }}>
@@ -349,7 +349,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
 
   return (
     <div style={{ width: '100%', maxWidth: '28rem', margin: 'auto', backgroundColor: '#ffffff', borderRadius: '0.5rem', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', overflow: 'hidden' }}>
-      <div style={{ padding: '1rem', backgroundColor: '#f9fafb', borderBotton: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ padding: '1rem', backgroundColor: '#f9fafb', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button
           onClick={() => mode === 'date' ? changeMonth(-1) : mode === 'yearQuarterMonth' || mode === 'yearMonth' ? changeYear(-1) : changeYears(-1)}
           style={{ padding: '0.5rem', backgroundColor: 'transparent', border: 'none', borderRadius: '50%', transition: 'backgroundColor 0.2s', cursor: 'pointer' }}
@@ -377,7 +377,7 @@ const FiscalDatePicker: React.FC<FiscalDatePickerProps> = ({ fiscalStartMonth = 
       {((mode === 'date' && selectedDates.length > 0) ||
         (mode === 'yearMonth' && selectedMonths.length > 0) ||
         ((mode === 'yearQuarterMonth' || mode === 'multiYearQuarterMonth') && (selectedMonths.length > 0 || selectedQuarters.length > 0))) && (
-          <div style={{ padding: '1rem', backgroundColor: '#eff6ff', borderBotton: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ padding: '1rem', backgroundColor: '#eff6ff', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span style={{ fontSize: '0.875rem', color: '#3b82f6' }}>
               {mode === 'date'
                 ? selectedDates.length < 2 ? selectedDates[0].toDateString() + ' selected' : `${selectedDates.length} date${selectedDates.length !== 1 ? 's' : ''} selected`
